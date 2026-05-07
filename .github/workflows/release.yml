@@ -294,3 +294,18 @@ jobs:
         with:
           persist-credentials: false
           submodules: recursive
+      - name: "Download GitHub Artifacts"
+        uses: actions/download-artifact@v7
+        with:
+          pattern: artifacts-*
+          path: artifacts
+          merge-multiple: true
+      - name: Modify npm package name
+        run: |
+          mkdir -p /tmp/npm-package
+          tar -xzf artifacts/area-npm-package.tar.gz -C /tmp/npm-package
+          sed -i 's/"name": "area"/"name": "@i-rs\/area"/' /tmp/npm-package/package/package.json
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > /tmp/npm-package/package/.npmrc
+          cd /tmp/npm-package/package && npm publish --access public
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
