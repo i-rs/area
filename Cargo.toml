@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2024"
 description = "中国·国家地名信息库 CLI 查询工具"
 authors = ["mankong"]
-repository = "https://github.com/mankong/area"
+repository = "https://github.com/i-rs/area"
 
 [package.metadata.wix]
 upgrade-guid = "CAB41391-FDB2-411B-B1F8-EDFC108A1BB6"
