@@ -2,6 +2,15 @@
 name = "area"
 version = "0.1.0"
 edition = "2024"
+description = "中国·国家地名信息库 CLI 查询工具"
+authors = ["mankong"]
+repository = "https://github.com/mankong/area"
+
+[package.metadata.wix]
+upgrade-guid = "CAB41391-FDB2-411B-B1F8-EDFC108A1BB6"
+path-guid = "B333E64B-0BEF-4D6D-AF7F-2ADE76425264"
+license = false
+eula = false
 
 [dependencies]
 clap = { version = "4.5", features = ["derive"] }
@@ -14,3 +23,52 @@ rusqlite = { version = "0.32", features = ["bundled"] }
 dirs = "5.0"
 console = "0.15"
 indicatif = "0.17"
+
+[dev-dependencies]
+cargo-dist = "0.31"
+
+# Config for 'dist'
+[workspace.metadata.dist]
+
+# 项目名称（用于安装脚本）
+dist-name = "area"
+# Target platforms to build apps for (Rust target-triple syntax)
+targets = ["aarch64-apple-darwin", "aarch64-unknown-linux-gnu", "x86_64-apple-darwin", "x86_64-unknown-linux-gnu", "x86_64-pc-windows-gnu", "x86_64-unknown-linux-musl", "x86_64-pc-windows-msvc"]
+# The installers to generate for each app
+installers = ["shell", "powershell", "npm", "msi"]
+
+# GitHub Actions 配置
+github-templates = true
+
+# 压缩格式
+archive-formats = ["tar.gz", "zip"]
+
+# 是否生成 checksum
+generate-checksums = true
+
+# CI 触发分支
+github-release-trigger = { tag = "v*" }
+# The preferred dist version to use in CI (Cargo.toml SemVer syntax)
+cargo-dist-version = "0.31.0"
+# CI backends to support
+ci = "github"
+# Path that installers should place binaries in
+install-path = "CARGO_HOME"
+# Whether to install an updater program
+install-updater = false
+
+# Linux 上的 shell 安装器配置
+[workspace.metadata.dist.shell]
+# 安装目录
+prefix = "/usr/local"
+
+# 二进制文件目录
+bin-dir = "${prefix}/bin"
+
+# 自动检测 lib32/lib64 等
+auto-sys-level = true
+
+# The profile that 'dist' will build with
+[profile.dist]
+inherits = "release"
+lto = "thin"
