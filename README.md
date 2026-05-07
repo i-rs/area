@@ -99,3 +99,32 @@ area/
 本工具使用民政部提供的 [中国·国家地名信息库](https://dmfw.mca.gov.cn) API 接口。
 
 坐标系: 2000国家大地坐标系（CGCS2000）
+
+## CI/CD 配置
+
+### 环境变量
+
+| 变量名 | 说明 |
+|--------|------|
+| `NPM_TOKEN` | npm 发布令牌，有效期 **90 天**，需定期更新 |
+
+### NPM_TOKEN 管理
+
+1. **创建 Token**: 在 npm 账户设置中创建 "Automation" 或 "Publish" 类型的 token
+2. **有效期**: 默认 90 天，过期后需要重新生成
+3. **配置位置**: 在 GitHub 仓库的 `Settings > Secrets and variables > Actions` 中添加
+4. **更新周期**: 建议每 80 天更新一次，避免发布失败
+
+### 发布流程
+
+```bash
+# 创建版本 tag
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+GitHub Actions 会自动完成：
+- 构建各平台二进制包
+- 生成 npm 包（包名: `@i-rs/area`）
+- 发布到 GitHub Releases
+- 发布到 npm 仓库
