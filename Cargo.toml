@@ -32,6 +32,8 @@ cargo-dist = "0.31"
 
 # 项目名称（用于安装脚本）
 dist-name = "area"
+# 允许手动修改生成的配置文件（避免 CI 报错）
+allow-dirty = ["ci", "msi"]
 # Target platforms to build apps for (Rust target-triple syntax)
 targets = ["aarch64-apple-darwin", "aarch64-unknown-linux-gnu", "x86_64-apple-darwin", "x86_64-unknown-linux-gnu", "x86_64-pc-windows-gnu", "x86_64-pc-windows-msvc"]
 # The installers to generate for each app
